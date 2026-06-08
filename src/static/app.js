@@ -935,28 +935,29 @@ async function downloadM3U8() {
 function computeDisplayTracks(allTracks) {
     const normalizedPath = currentPath.replace(/\\+/g, '/');
     const prefix = normalizedPath ? `${normalizedPath}/` : '';
-    return allTracks
-        .map((track, index) => {
-            const relPath = (track.relative_path || '').replace(/\\+/g, '/');
-            if (prefix) {
-                if (!relPath.startsWith(prefix)) {
-                    return null;
-                }
-                const tail = relPath.slice(prefix.length);
-                if (!tail || tail.includes('/')) {
-                    return null;
-                }
-            } else if (relPath.includes('/')) {
-                return null;
+    const seen = new Set();
+    const result = [];
+    allTracks.forEach((track, index) => {
+        const relPath = (track.relative_path || '').replace(/\\+/g, '/');
+        if (prefix) {
+            if (!relPath.startsWith(prefix)) {
+                return;
             }
-            return {
-                name: track.displayName || track.name,
-                url: track.url,
-                playlistIndex: index,
-                ...track
-            };
-        })
-        .filter(Boolean);
+        } else if (normalizedPath) {
+            return;
+        }
+        if (seen.has(relPath)) {
+            return;
+        }
+        seen.add(relPath);
+        result.push({
+            name: track.displayName || track.name,
+            url: track.url,
+            playlistIndex: index,
+            ...track
+        });
+    });
+    return result;
 }
 
 function scrollPlaylistToTop() {
