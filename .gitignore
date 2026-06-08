@@ -1,8 +1,8 @@
-# Rust build artifacts (debug builds and intermediates)
-# Ignore everything in target EXCEPT release binaries
-/target/*
-!/target/release/remsc.exe
-!/target/release/remsc-launch.exe
+# Rust build artifacts
+# Ignore everything in target/ EXCEPT these two release binaries
+target/
+!target/release/remsc.exe
+!target/release/remsc-launch.exe
 **/*.rs.bk
 Cargo.lock.bak
 
@@ -15,8 +15,8 @@ RE-MUSIC/.re-music/
 RE-MUSIC/.musrv/
 
 # IDE
-/.idea
-/.vscode
+.idea/
+.vscode/
 
 # OS
 Thumbs.db
