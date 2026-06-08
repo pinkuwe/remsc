@@ -1,9 +1,16 @@
-# Rust
-/target
+# Rust build artifacts (debug builds and intermediates)
+# Ignore everything in target EXCEPT release binaries
+/target/*
+!/target/release/remsc.exe
+!/target/release/remsc-launch.exe
 **/*.rs.bk
 Cargo.lock.bak
 
-# App
+# Keep release binaries for easy distribution (do NOT ignore):
+# - target/release/remsc.exe
+# - target/release/remsc-launch.exe
+
+# App caches
 RE-MUSIC/.re-music/
 RE-MUSIC/.musrv/
 
